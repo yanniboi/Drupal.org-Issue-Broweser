@@ -1,56 +1,109 @@
-angular.module('starter.controllers', [])
+var module = angular.module('decoupled_auth.controllers', []);
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
+/**
+ * App Controller.
+ *
+ * Handle modal popup for logout event.
+ */
+module.controller('AppCtrl', function($scope, $ionicModal, $timeout, Utils, DrupalOrg, LoginService) {
+  $scope.$on('$ionicView.enter', function(e) {
+    $timeout(function() {
+      Utils.notifyHide();
+    }, 1000);
   });
 
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
+  // Process Project caches.
+  DrupalOrg.cacheAllProjects();
+
+  // Create the logout modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/logout.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.logoutModal = modal;
+  });
+
+  $scope.closeLogout = function() {
+    $scope.logoutModal.hide();
   };
 
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
+  $scope.logout = function() {
+    $scope.logoutModal.show();
   };
 
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+  $scope.doLogout = function() {
+    LoginService.logoutUser();
+    $scope.closeLogout();
   };
-})
+});
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+/**
+ * Projects Controller.
+ *
+ * Load all projects into $state.
+ */
+module.controller('ProjectsCtrl', function($scope, config, DrupalOrg) {
+  $scope.projects = [];
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+  for (var i = 0; i < config.projectIds.length; i++) {
+    // Process Issue caches.
+    DrupalOrg.cacheAllProjectIssues(config.projectIds[i]);
+
+    var project = DrupalOrg.getProject(config.projectIds[i]);
+    $scope.projects.push(project);
+  }
+
+});
+
+/**
+ * Project Issues Controller.
+ *
+ * Load all issues from a project into $state.
+ */
+module.controller('ProjectIssuesCtrl', function($scope, $stateParams, DrupalOrg) {
+  $scope.projectId = $stateParams.projectId;
+  $scope.project = DrupalOrg.getProject($scope.projectId);
+  var projectIssues = DrupalOrg.getProjectIssues($scope.projectId);
+
+  $scope.issues = [];
+  for (var i = 0; i < projectIssues.length; i++) {
+    var issue = DrupalOrg.getIssue(projectIssues[i]);
+    $scope.issues.push(issue);
+  }
+});
+
+/**
+ * Project Issue Controller.
+ *
+ * Loads an Issue and its details into $state.
+ */
+module.controller('ProjectIssueCtrl', function($scope, $stateParams, DrupalOrg) {
+  $scope.projectId = $stateParams.projectId;
+  $scope.issueId = $stateParams.issueId;
+
+  // Process Comment caches.
+  DrupalOrg.cacheAllIssueComments($scope.issueId);
+
+  $scope.issue = DrupalOrg.getIssue($scope.issueId);
+});
+
+/**
+ * Issue Comment Controller.
+ *
+ * Load all comments from a issue into $state.
+ */
+module.controller('IssueCommentsCtrl', function($scope, $stateParams, DrupalOrg) {
+  $scope.projectId = $stateParams.projectId;
+  $scope.issueId = $stateParams.issueId;
+
+  $scope.issue = DrupalOrg.getIssue($scope.issueId);
+  var commentIds = DrupalOrg.getIssueComments($scope.issueId);
+
+  $scope.comments = [];
+  for (var i = 0; i < commentIds.length; i++) {
+    var comment = DrupalOrg.getComment(commentIds[i]);
+
+    // Add user data to comment author.
+    comment.author.data = DrupalOrg.getUser(comment.author.id);
+    $scope.comments.push(comment);
+  }
 });

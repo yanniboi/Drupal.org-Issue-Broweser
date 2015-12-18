@@ -1,0 +1,35 @@
+<ion-view view-title="Comments">
+  <ion-content>
+    <h1>Issue #{{issue.nid}} - Comments</h1>
+
+    <div class="list card">
+
+      <div class="item item-body item-text-wrap">
+        <h2>{{issue.title}}</h2>
+        <p>{{issue.last_comment_timestamp * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
+      </div>
+
+    </div>
+
+    <ion-list>
+      <ion-item ng-repeat="comment in comments">
+        {{comment.title}}
+        <div class="list card">
+
+          <div class="item item-avatar item-text-wrap">
+            <img src="img/default-avatar.png">
+            <h2>{{comment.subject}}</h2>
+            <p>{{comment.author.data.field_first_name}} {{comment.author.data.field_last_name}} ({{comment.name}})</p>
+            <p>{{comment.created * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
+          </div>
+
+          <div class="item item-body">
+            <p ng-bind-html="comment.comment_body.value"></p>
+          </div>
+
+        </div>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>
