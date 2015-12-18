@@ -59,7 +59,7 @@ module.controller('ProjectsCtrl', function($scope, config, DrupalOrg) {
  *
  * Load all issues from a project into $state.
  */
-module.controller('ProjectIssuesCtrl', function($scope, $stateParams, DrupalOrg) {
+module.controller('ProjectIssuesCtrl', function($scope, $stateParams, DrupalOrg, DrupalFields) {
   $scope.projectId = $stateParams.projectId;
   $scope.project = DrupalOrg.getProject($scope.projectId);
   var projectIssues = DrupalOrg.getProjectIssues($scope.projectId);
@@ -67,6 +67,7 @@ module.controller('ProjectIssuesCtrl', function($scope, $stateParams, DrupalOrg)
   $scope.issues = [];
   for (var i = 0; i < projectIssues.length; i++) {
     var issue = DrupalOrg.getIssue(projectIssues[i]);
+    issue.status_value = DrupalFields.getStatus(issue.field_issue_status);
     $scope.issues.push(issue);
   }
 });
@@ -76,7 +77,7 @@ module.controller('ProjectIssuesCtrl', function($scope, $stateParams, DrupalOrg)
  *
  * Loads an Issue and its details into $state.
  */
-module.controller('ProjectIssueCtrl', function($scope, $stateParams, DrupalOrg) {
+module.controller('ProjectIssueCtrl', function($scope, $stateParams, DrupalOrg, DrupalFields) {
   $scope.projectId = $stateParams.projectId;
   $scope.issueId = $stateParams.issueId;
 
@@ -84,6 +85,7 @@ module.controller('ProjectIssueCtrl', function($scope, $stateParams, DrupalOrg) 
   DrupalOrg.cacheAllIssueComments($scope.issueId);
 
   $scope.issue = DrupalOrg.getIssue($scope.issueId);
+  $scope.issue.status_value = DrupalFields.getStatus($scope.issue.field_issue_status);
 });
 
 /**

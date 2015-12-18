@@ -9719,3 +9719,87 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+.status-1 {
+  background-color: #f9f9f9;
+  border-top: 2px solid #cccccc; }
+
+.status-1:hover {
+  background-color: white;
+  border-top: 2px solid #939393; }
+
+.status-2 {
+  background-color: #d7ffd8;
+  border-top: 2px solid #a8ff98; }
+
+.status-2:hover {
+  background-color: #edffec;
+  border-top: 2px solid #96bc44; }
+
+.status-3,
+.status-4,
+.status-5,
+.status-6,
+.status-16 {
+  background-color: #eff1fe;
+  border-top: 2px solid #b5c4fe; }
+
+.status-3:hover,
+.status-4:hover,
+.status-5:hover,
+.status-6:hover,
+.status-16:hover {
+  background-color: #f2f4fe;
+  border-top: 2px solid #4988fe; }
+
+.status-7,
+.status-18 {
+  background-color: #fddddd;
+  border-top: 2px solid #fc8596; }
+
+.status-7:hover,
+.status-18:hover {
+  background-color: #fdebed;
+  border-top: 2px solid #fc2843; }
+
+.status-8 {
+  background-color: #ffffdd;
+  border-top: 2px solid #ffcf73; }
+
+.status-8:hover {
+  background-color: #feffec;
+  border-top: 2px solid #ffb404; }
+
+.status-13 {
+  background-color: #ffece8;
+  border-top: 2px solid #ffdccd; }
+
+.status-13:hover {
+  background-color: #fff6f6;
+  border-top: 2px solid #ffbca4; }
+
+.status-14,
+.status-15 {
+  background-color: #f1ffe8;
+  border-top: 2px solid #bcffb3; }
+
+.status-14:hover,
+.status-15:hover {
+  background-color: #f8fff1;
+  border-top: 2px solid #93ff88; }
+
+div.codeblock {
+  background-color: #F6F6F2;
+  margin-bottom: 0.5em; }
+
+div.codeblock {
+  padding: 5px;
+  border: 1px solid #CCC;
+  background-color: #EEE; }
+
+code, tt, pre {
+  background-color: #F6F6F2;
+  font-family: "Bitstream Vera Sans Mono",Monaco,"Lucida Console",monospace;
+  font-size: 0.923em;
+  padding: 1px;
+  white-space: pre-wrap; }

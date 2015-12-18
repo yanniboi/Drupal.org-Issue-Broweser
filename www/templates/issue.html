@@ -10,9 +10,9 @@
         <p>{{issue.last_comment_timestamp * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
       </div>
 
-      <div class="item">
+      <div class="item status-{{issue.field_issue_status}}">
         <h2>Status</h2>
-        <p>{{issue.field_issue_status}}</p>
+        <p>{{issue.status_value}}</p>
       </div>
 
       <div class="item item-body">

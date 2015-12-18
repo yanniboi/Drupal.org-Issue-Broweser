@@ -176,3 +176,32 @@ module.factory('DrupalOrg', function($http, CacheService, config) {
     }
   };
 });
+
+
+module.factory('DrupalFields', function($http, CacheService, config) {
+
+  var statuses = {
+    1: 'Active',
+    13: 'Needs work',
+    8: 'Needs review',
+    14: 'Reviewed & tested by the community',
+    15: 'Patch (to be ported)',
+    2: 'Fixed',
+    4: 'Postponed',
+    16: 'Postponed (maintainer needs more info)',
+    3: 'Closed (duplicate)',
+    5: 'Closed (won\'t fix)',
+    6: 'Closed (works as designed)',
+    18: 'Closed (cannot reproduce)',
+    7: 'Closed (fixed)'
+  };
+
+  return {
+    /**
+     * Get human readable name for status term.
+     */
+    getStatus: function (statusId) {
+      return statuses[statusId];
+    }
+  }
+});
