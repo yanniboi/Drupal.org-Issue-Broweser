@@ -1,0 +1,12 @@
+{
+  "name": "decoupled_auth",
+  "app_id": "5a67efad",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
+}
