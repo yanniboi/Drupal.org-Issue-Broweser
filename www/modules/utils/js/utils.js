@@ -16,9 +16,16 @@ module.factory('CacheService', function($cacheFactory) {
         return envVar;
       }
 
+      var localVar = localStorage.getItem(key);
+      if (localVar) {
+        this.setVar(key, JSON.parse(localVar));
+        return JSON.parse(localVar);
+      }
+
       return null;
     },
     setVar: function(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
       CacheService.put(key, value);
     },
     clearVar: function(key) {
