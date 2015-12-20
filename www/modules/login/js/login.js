@@ -54,7 +54,7 @@ module.controller('LoginCtrl', function($scope, $state, LoginService, $timeout, 
  *
  * Handle login and user storage.
  */
-module.service('LoginService', function($q, $state) {
+module.service('LoginService', function($q, $state, $ionicHistory) {
   return {
     userLoggedIn: function() {
       return JSON.parse(localStorage.getItem('userLoggedIn'));
@@ -83,6 +83,9 @@ module.service('LoginService', function($q, $state) {
     },
     logoutUser: function() {
       localStorage.setItem('userLoggedIn', false);
+      localStorage.clear();
+      $ionicHistory.clearCache();
+      $ionicHistory.clearHistory();
       $state.go('login');
     },
     userAuthenticate: function(user, pass) {

@@ -2,10 +2,10 @@
   <ion-content>
     <h1>{{project.title}}</h1>
     <ion-list>
-      <ion-item class="status-{{issue.field_issue_status}} padding item item-text-wrap" ng-repeat="issue in issues | orderBy:'-last_comment_timestamp'" href="#/app/projects/{{projectId}}/{{issue.nid}}">
+      <ion-item class="status-{{issue.field_issue_status}} padding item item-text-wrap" item-render-buffer="5" item-height="100" collection-repeat="issue in issues | orderBy:'-last_comment_timestamp'" href="#/app/projects/{{projectId}}/{{issue.nid}}">
         {{issue.title}}
         <p>Status: {{issue.status_value}}</p>
-        <p>Updated: {{issue.last_comment_timestamp * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
+        <p>Updated: {{issue.last_comment_timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
       </ion-item>
     </ion-list>
   </ion-content>

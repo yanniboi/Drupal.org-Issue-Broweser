@@ -6,25 +6,48 @@
 
       <div class="item item-body item-text-wrap">
         <h2>{{issue.title}}</h2>
-        <p>{{issue.last_comment_timestamp * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
+        <p>{{issue.last_comment_timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
       </div>
 
     </div>
 
+    <div class="item">
+      <h2>Files</h2>
+
+      <ion-list>
+        <ion-item class="file-{{file.fid}}" ng-repeat="file in files | orderBy:'-timestamp'">
+          <div class="item item-text-wrap">
+            <h3>{{file.name}}</h3>
+            <p>Posted: {{file.timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
+            <p>Size: {{file.size}}kb</p>
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+
+
     <ion-list>
-      <ion-item ng-repeat="comment in comments">
+      <ion-item ng-hide="comment.comment_body.length == '0'" class="comment-{{comment.cid}}" ng-repeat="comment in comments | orderBy:'created'">
         {{comment.title}}
         <div class="list card">
 
           <div class="item item-avatar item-text-wrap">
             <img src="img/default-avatar.png">
             <h2>{{comment.subject}}</h2>
-            <p>{{comment.author.data.field_first_name}} {{comment.author.data.field_last_name}} ({{comment.name}})</p>
-            <p>{{comment.created * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
+            <p>{{comment.name}}</p>
+            <p>{{comment.created | date:"dd/MM/yyyy 'at' h:mma"}}</p>
           </div>
 
-          <div class="item item-body">
+          <div ng-hide="comment.comment_body.value.length == 0" class="item item-body">
             <p ng-bind-html="comment.comment_body.value"></p>
+          </div>
+
+          <div ng-show="comment.files.length" class="list padding">
+            <p>Attached File:</p>
+
+            <div ng-repeat="file in comment.files | orderBy:'-timestamp'">
+              <p>{{file.name}}</p>
+            </div>
           </div>
 
         </div>

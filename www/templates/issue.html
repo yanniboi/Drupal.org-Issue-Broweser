@@ -7,7 +7,7 @@
       <div class="item item-avatar item-text-wrap">
         <img src="img/default-avatar.png">
         <h2>{{issue.title}}</h2>
-        <p>{{issue.last_comment_timestamp * 1000| date:"dd/MM/yyyy 'at' h:mma"}}</p>
+        <p>{{issue.last_comment_timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
       </div>
 
       <div class="item status-{{issue.field_issue_status}}">

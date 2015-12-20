@@ -52,7 +52,6 @@ module.factory('Utils', function($rootScope, $ionicLoading, $timeout) {
       });
     },
     notifyHide: function() {
-      console.log('hidden');
       $ionicLoading.hide();
     },
     notify: function() {
