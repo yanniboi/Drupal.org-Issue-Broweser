@@ -123,7 +123,15 @@ module.controller('ProjectIssueCtrl', function($scope, $stateParams, $q, DrupalO
   $q.when(issue).then(function (data) {
     $scope.issue = data;
     $scope.issue.status_value = DrupalFields.getStatus($scope.issue.field_issue_status);
+
+    // Attach issue author.
+    var author = DrupalOrg.getUser(data.author.id);
+    $q.when(author).then(function (data) {
+      $scope.author = data;
+    });
   });
+
+
 });
 
 /**

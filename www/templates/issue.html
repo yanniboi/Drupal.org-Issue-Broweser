@@ -10,6 +10,11 @@
         <p>{{issue.last_comment_timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
       </div>
 
+      <div class="item">
+        <h2>Reporter</h2>
+        <p>{{author.field_first_name}} {{author.field_last_name}} ({{author.name}})</p>
+      </div>
+
       <div class="item status-{{issue.field_issue_status}}">
         <h2>Status</h2>
         <p>{{issue.status_value}}</p>
