@@ -28,7 +28,7 @@ app.constant('config', {
 });
 
 app.constant('configUser', {
-  redirect: 'app.search'
+  redirect: 'app.favourites'
 });
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -39,11 +39,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
     controller: 'AppCtrl'
   });
 
-  $stateProvider.state('app.search', {
-    url: '/search',
+  $stateProvider.state('app.favourites', {
+    url: '/favourites',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/favourites.html',
+        controller: 'FavouritesCtrl'
       }
     }
   });

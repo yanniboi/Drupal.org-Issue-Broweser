@@ -1,5 +1,8 @@
 var module = angular.module('decoupled_auth.services', []);
 
+/**
+ * Drupal.org factory to interact with the Drupal GET API.
+ */
 module.factory('DrupalOrg', function($http, $rootScope, $q, CacheService, config) {
   var commentStructure = {
     "comment_body":{
@@ -496,7 +499,54 @@ module.factory('DrupalOrg', function($http, $rootScope, $q, CacheService, config
   }
 });
 
+/**
+ * Favourites factory to store and recall favourite issues.
+ */
+module.factory('Favourites', function(CacheService) {
+  var Favourites = CacheService.getVar('favourites');
 
+  if (!Favourites) {
+    Favourites = {};
+  }
+
+  return {
+    /**
+     * Get an array of favourite issue ids.
+     * @returns {Array}
+     */
+    getAll: function () {
+      var ids = [];
+      for (var id in Favourites) {
+        if (Favourites.hasOwnProperty(id)) {
+          ids.push(id);
+        }
+      }
+      return ids;
+    },
+
+    /**
+     * Add and store a new issue in favourites.
+     * @param id
+     */
+    add: function (id) {
+      Favourites[id] = id;
+      CacheService.setVar('favourites', Favourites);
+    },
+
+    /**
+     * Remove and store an issue from favourites.
+     * @param id
+     */
+    remove: function (id) {
+      delete Favourites[id];
+      CacheService.setVar('favourites', Favourites);
+    }
+  }
+});
+
+/**
+ * Drupal fields factory to convert field values and labels.
+ */
 module.factory('DrupalFields', function() {
 
   var statuses = {

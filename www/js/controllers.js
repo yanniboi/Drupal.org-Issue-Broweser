@@ -37,6 +37,45 @@ module.controller('AppCtrl', function($scope, $ionicModal, $timeout, Utils, Drup
 });
 
 /**
+ * Favourites Controller.
+ *
+ * Handle favourite lists and search.
+ */
+module.controller('FavouritesCtrl', function($scope, $q, $ionicListDelegate, Utils, DrupalOrg, Favourites) {
+  // Always rebuild favourites because they are subject to change.
+  $scope.$on('$ionicView.enter', function(e) {
+    $scope.favourites = Favourites.getAll();
+    $scope.issues = [];
+
+    for (var i = 0; i < $scope.favourites.length; i++) {
+      var issue = DrupalOrg.getIssue($scope.favourites[i]);
+      $q.when(issue).then(function(data) {
+        $scope.issues.push(data);
+        console.log(data);
+      });
+    }
+  });
+
+  // Filter functions
+  $scope.showFilters = false;
+  $scope.toggleFilters = function() {
+    $scope.showFilters = !$scope.showFilters;
+  };
+
+  // Remove and hide item from list.
+  $scope.removeIssue = function(id) {
+    for (var i = 0; i < $scope.issues.length; i++) {
+      if ($scope.issues[i].nid == id) {
+        $scope.issues[i].hide = true;
+        break;
+      }
+    }
+    Favourites.remove(id);
+    $ionicListDelegate.closeOptionButtons();
+  };
+});
+
+/**
  * Projects Controller.
  *
  * Load all projects into $state.
@@ -60,10 +99,23 @@ module.controller('ProjectsCtrl', function($scope, config, $q, DrupalOrg) {
  *
  * Load all issues from a project into $state.
  */
-module.controller('ProjectIssuesCtrl', function($scope, $stateParams, $q, DrupalOrg, DrupalFields, Utils) {
+module.controller('ProjectIssuesCtrl', function($scope, $stateParams, $q, $ionicListDelegate, DrupalOrg, DrupalFields, Utils, Favourites) {
   Utils.notifyShow();
   $scope.projectId = $stateParams.projectId;
   $scope.issues = [];
+
+  // Filter functions.
+  $scope.saveIssue = function(id) {
+    Favourites.add(id);
+    $ionicListDelegate.closeOptionButtons();
+  };
+  $scope.showFilters = false;
+  $scope.toggleFilters = function() {
+    $scope.showFilters = !$scope.showFilters;
+  };
+  //$scope.clearFilters = function() {
+  //  $scope.search = {};
+  //};
 
   /**
    * Helper function to add a list of issues to $state.

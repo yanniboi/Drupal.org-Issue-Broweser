@@ -1,10 +1,10 @@
-<ion-view view-title="Project">
+<ion-view view-title="Favourites">
   <ion-content>
     <button ng-click="toggleFilters()" style="float:right" class="button icon ion-search"></button>
-    <h1>{{project.title}}</h1>
+    <h1>Favourites</h1>
     <div ng-show="showFilters" class="list"><h2>Filters:</h2>
       <label class="item item-input">
-      <input ng-model="search.title" type="text" placeholder="Title">
+        <input ng-model="search.title" type="text" placeholder="Title">
       </label>
       <label class="item item-input item-select">
         <div class="input-label">
@@ -27,14 +27,13 @@
           <option value="7">Closed - fixed</option>
         </select>
       </label>
-      <!--<div class="button button-block" ng-click="clearFilters()">Clear</div>-->
     </div>
     <ion-list>
-      <ion-item can-swipe class="status-{{issue.field_issue_status}} padding item item-text-wrap" item-render-buffer="5" item-height="100" ng-repeat="issue in issues | filter:search | orderBy:'-last_comment_timestamp'" href="#/app/projects/{{projectId}}/{{issue.nid}}">
+      <ion-item ng-hide="issue.hide" can-swipe class="status-{{issue.field_issue_status}} padding item item-text-wrap" item-render-buffer="5" item-height="100" ng-repeat="issue in issues | filter:search | orderBy:'-last_comment_timestamp'" href="#/app/projects/{{projectId}}/{{issue.nid}}">
         {{issue.title}}
         <p>Status: {{issue.status_value}}</p>
         <p>Updated: {{issue.last_comment_timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
-        <ion-option-button ng-click="saveIssue(issue.nid)" class="button-light icon ion-heart"></ion-option-button>
+        <ion-option-button ng-click="removeIssue(issue.nid)" class="button-assertive icon ion-trash-a"></ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>
