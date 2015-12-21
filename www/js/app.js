@@ -1,5 +1,6 @@
 var app = angular.module('decoupled_auth', [
   'ionic',
+  'ngCordova',
   'decoupled_auth.controllers',
   'decoupled_auth.services',
   'yanniboi.login'
