@@ -50,8 +50,8 @@ module.controller('FavouritesCtrl', function($scope, $q, $ionicListDelegate, Uti
     for (var i = 0; i < $scope.favourites.length; i++) {
       var issue = DrupalOrg.getIssue($scope.favourites[i]);
       $q.when(issue).then(function(data) {
+        data.hide = false;
         $scope.issues.push(data);
-        console.log(data);
       });
     }
   });
@@ -191,7 +191,7 @@ module.controller('ProjectIssueCtrl', function($scope, $stateParams, $q, DrupalO
  *
  * Load all comments from a issue into $state.
  */
-module.controller('IssueCommentsCtrl', function($scope, $stateParams, $q, DrupalOrg) {
+module.controller('IssueCommentsCtrl', function($scope, $stateParams, $q, $cordovaInAppBrowser, DrupalOrg) {
   $scope.projectId = $stateParams.projectId;
   $scope.issueId = $stateParams.issueId;
   $scope.issue = {title:'Loading'};
@@ -199,6 +199,14 @@ module.controller('IssueCommentsCtrl', function($scope, $stateParams, $q, Drupal
   $scope.comments = [];
   $scope.commentMap = {};
   $scope.files = [];
+  $scope.goto = function(url) {
+    var options = {
+      location: 'yes',
+      clearcache: 'yes',
+      toolbar: 'no'
+    };
+    $cordovaInAppBrowser.open(url, '_blank', options);
+  };
 
   var issue = DrupalOrg.getIssue($scope.issueId);
   $q.when(issue).then(function (data) {

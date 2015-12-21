@@ -34,7 +34,7 @@
         {{issue.title}}
         <p>Status: {{issue.status_value}}</p>
         <p>Updated: {{issue.last_comment_timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
-        <ion-option-button ng-click="saveIssue(issue.nid)" class="button-light icon ion-heart"></ion-option-button>
+        <ion-option-button ng-click="saveIssue(issue.nid)" class="button-assertive icon ion-heart"></ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>

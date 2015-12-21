@@ -25,7 +25,7 @@ app.run(function($ionicPlatform) {
 app.constant('config', {
   appName: 'Decoupled Auth Tracker',
   appVersion: 1.0,
-  projectIds: [2630282,1260650]
+  projectIds: [2630282,1260650, 1905260, 1878940, 1450980, 1882162, 1800812]
 });
 
 app.constant('configUser', {

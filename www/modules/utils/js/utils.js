@@ -42,7 +42,6 @@ module.factory('CacheService', function($cacheFactory) {
 module.factory('Utils', function($rootScope, $ionicLoading, $timeout) {
   return {
     notifyShow: function(text) {
-      console.log('show');
       $rootScope.notifier = $ionicLoading.show({
         content: text ? text : 'Loading..',
         animation: 'fade-in',

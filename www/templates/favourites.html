@@ -2,6 +2,13 @@
   <ion-content>
     <button ng-click="toggleFilters()" style="float:right" class="button icon ion-search"></button>
     <h1>Favourites</h1>
+    <div ng-hide="issues.length">
+      <div class="card">
+        <p class="item">No favourites added yet.</p>
+      </div>
+      <a href="#/app/projects" class="button button-block">Go to Projects</a>
+    </div>
+
     <div ng-show="showFilters" class="list"><h2>Filters:</h2>
       <label class="item item-input">
         <input ng-model="search.title" type="text" placeholder="Title">

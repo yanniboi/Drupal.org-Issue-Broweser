@@ -11,15 +11,16 @@
 
     </div>
 
-    <div class="item">
+    <div ng-show="files.length" class="item">
       <h2>Files</h2>
 
       <ion-list>
         <ion-item class="file-{{file.fid}}" ng-repeat="file in files | orderBy:'-timestamp'">
-          <div class="item item-text-wrap">
+          <div ng-click="goto(file.url)" class="item item-text-wrap">
             <h3>{{file.name}}</h3>
             <p>Posted: {{file.timestamp | date:"dd/MM/yyyy 'at' h:mma"}}</p>
             <p>Size: {{file.size}}kb</p>
+            <img ng-show="file.mime.substring(0, 5) == 'image'" src="{{file.url}}">
           </div>
         </ion-item>
       </ion-list>

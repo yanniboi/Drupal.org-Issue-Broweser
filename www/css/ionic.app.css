@@ -9803,3 +9803,6 @@ code, tt, pre {
   font-size: 0.923em;
   padding: 1px;
   white-space: pre-wrap; }
+
+img {
+  max-width: 100%; }
