@@ -50,6 +50,20 @@ module.factory('pushService', function($q, $window, $cordovaPush, $rootScope, $s
 
           }
         }
+
+        // Specific actions for foreground or background notifications.
+        if ( notification.foreground ) {
+          //alert("Notification Received");
+        }
+        else {  // otherwise we were launched because the user touched a notification in the notification tray.
+          if ( notification.coldstart ) {
+            //alert("coldstart");
+          }
+          else {
+            //alert("other than coldstart");
+          }
+        }
+
         break;
 
       // Log errors.
