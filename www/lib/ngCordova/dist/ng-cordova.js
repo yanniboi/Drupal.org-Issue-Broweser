@@ -8,7 +8,36 @@
 
 angular.module('ngCordova', [
   'ngCordova.plugins'
-]);
+])
+
+  .provider('$cordova', function ($provide) {
+
+    var $mocksInjector = angular.injector(['ng', 'ngCordovaMocks']);
+
+    var decorateNgCordova = function () {
+      // iterate over all mocks services available
+      angular.forEach(angular.module('ngCordovaMocks')._invokeQueue, function (module) {
+        // get the service name
+        var serviceName = module[2][0];
+        $provide.decorator(serviceName, function() {
+          // replace / decorate the original service with the mocked one
+          return $mocksInjector.get(serviceName);
+        });
+      });
+    };
+
+    this.useBrowserCapabilities = function(useIt) {
+      if(useIt === 'auto' && !window.cordova) {
+        decorateNgCordova();
+      } else if(useIt && useIt !== 'auto') {
+        decorateNgCordova();
+      }
+    };
+
+    this.$get = function() {
+      return {};
+    };
+  });
 
 // install  :     cordova plugin add https://github.com/EddyVerbruggen/cordova-plugin-actionsheet.git
 // link     :     https://github.com/EddyVerbruggen/cordova-plugin-actionsheet

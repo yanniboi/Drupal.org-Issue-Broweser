@@ -3,10 +3,11 @@ var app = angular.module('decoupled_auth', [
   'ngCordova',
   'decoupled_auth.controllers',
   'decoupled_auth.services',
+  'decoupled_auth.push',
   'yanniboi.login'
 ]);
 
-app.run(function($ionicPlatform) {
+app.run(function($ionicPlatform, pushService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,6 +20,15 @@ app.run(function($ionicPlatform) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    // Register push notifications.
+    pushService.register().then(function(result) {
+      // Success
+      console.log('Triggered registration request with GCM');
+    }, function(err) {
+      // Error
+      console.error(err);
+    });
   });
 });
 
@@ -32,7 +42,10 @@ app.constant('configUser', {
   redirect: 'app.favourites'
 });
 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $cordovaProvider) {
+  // Enable mocks automatically on desktop browsers.
+  $cordovaProvider.useBrowserCapabilities('auto');
+
   $stateProvider.state('app', {
     url: '/app',
     abstract: true,
