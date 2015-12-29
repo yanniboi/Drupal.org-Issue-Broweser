@@ -1,9 +1,9 @@
-var module = angular.module('decoupled_auth.push', []);
+var module = angular.module('decoupled_auth.push', ['decoupled_auth.services']);
 
 /**
  * Pushservice factory to handle push notifications.
  */
-module.factory('pushService', function($q, $window, $cordovaPush, $rootScope, $state) {
+module.factory('pushService', function($q, $window, $cordovaPush, $rootScope, $state, DrupalUpdate) {
   // Configuration options.
   var androidConfig = {
     "senderID":"980621160609"
@@ -19,6 +19,10 @@ module.factory('pushService', function($q, $window, $cordovaPush, $rootScope, $s
       // Registered and received token.
       case 'registered':
         if (notification.regid.length > 0 ) {
+          var result = DrupalUpdate.storePushReg(notification.regid);
+          $q.when(result).then(function(data) {
+            console.log(JSON.stringify(data));
+          });
           console.log(notification.regid);
         }
         break;

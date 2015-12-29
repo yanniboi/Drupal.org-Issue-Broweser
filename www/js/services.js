@@ -574,3 +574,33 @@ module.factory('DrupalFields', function() {
     }
   }
 });
+
+/**
+ * Drupal update factory to push information to ddoto site.
+ */
+module.factory('DrupalUpdate', function($http, CacheService, configUser) {
+  return {
+    /**
+     * Update ddoto user push dataset with GCM regId.
+     */
+    storePushReg: function (regId) {
+      var user = CacheService.getVar('user');
+      console.log(user);
+
+      if (!user.uid) {
+        console.error('ERR', 'User does not have a drupal uid.');
+        return false;
+      }
+
+      var url = configUser.domain + 'api/update/reg/';
+      var postData = '{ "uid" : "' + user.uid + '", "reg_id" : "' + regId + '" }';
+
+      return $http.post(url, postData).then(function (resp) {
+        return resp;
+      }, function (err) {
+        console.error('ERR', err);
+        return err;
+      });
+    }
+  }
+});
