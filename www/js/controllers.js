@@ -5,7 +5,7 @@ var module = angular.module('decoupled_auth.controllers', []);
  *
  * Handle modal popup for logout event.
  */
-module.controller('AppCtrl', function($scope, $ionicModal, $timeout, Utils, DrupalOrg, LoginService) {
+module.controller('AppCtrl', function($scope, $ionicModal, $timeout, Utils, DrupalOrg, DrupalLoginService) {
   //$scope.$on('$ionicView.enter', function(e) {
   //  $timeout(function() {
   //    Utils.notifyHide();
@@ -31,7 +31,7 @@ module.controller('AppCtrl', function($scope, $ionicModal, $timeout, Utils, Drup
   };
 
   $scope.doLogout = function() {
-    LoginService.logoutUser();
+    DrupalLoginService.logoutUser();
     $scope.closeLogout();
   };
 });

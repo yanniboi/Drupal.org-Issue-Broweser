@@ -4,7 +4,7 @@ var app = angular.module('decoupled_auth', [
   'decoupled_auth.controllers',
   'decoupled_auth.services',
   'decoupled_auth.push',
-  'yanniboi.login'
+  'yanniboi.drupal_login'
 ]);
 
 app.run(function($ionicPlatform, pushService) {
@@ -39,7 +39,9 @@ app.constant('config', {
 });
 
 app.constant('configUser', {
-  redirect: 'app.favourites'
+  redirect: 'app.favourites',
+  domain: 'http://ddoto.yanniboi.com/',
+  endpoint: 'ionic/'
 });
 
 app.config(function($stateProvider, $urlRouterProvider, $cordovaProvider) {
